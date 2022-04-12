@@ -9,25 +9,50 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
+    <div class="menu hidden">
+        <nav>
+            <div class="closeMenu" onclick="showPeople()">
+                <img src="./components/svg-files/close-outline.svg" alt="">
+            </div>
+            <h2><strong>Escolha um contato para enviar mensagem:</strong></h1>
+            <ul>
+                <li onclick="messageEveryone()"><ion-icon name="people-outline"></ion-icon>Todos</li>
+                <li onclick="messageTo()" ><ion-icon name="person-circle-outline"></ion-icon>João</li>
+            </ul>
+            <h2><strong>Escolha a visibilidade:</strong></h2>
+            <ul>
+                <li onclick="publicMessage()"><ion-icon name="lock-open-outline"></ion-icon>Público</li>
+                <li onclick="reservedMessage()"><ion-icon name="lock-closed-outline"></ion-icon>Reservadamente</li>
+            </ul>
+        </nav>
+    </div>
+
     <header>
         <img style="width: 75px;" src="components/png-files/logo-uol-batepapo.png" alt="logo-batepapo-uol">
         <ion-icon onclick="showPeople()" name="people-outline"></ion-icon>
     </header>
 
     <main>
-        <div class="box-message-status">
+
+        <div class="box-message status">
             <div class="time">(09:21:45)</div>
-            <div class="message">João  entra na sala...</div>
+            <div class="message"><strong>João</strong> entra na sala...</div>
         </div>
 
-        <div class="box-message-status">
-            <div class="time">(09:21:45)</div>
-            <div class="message">João  entra na sala...</div>
+        <div class="box-message normal">
+            <div class="time">(09:22:28)</div>
+            <div class="message"><strong>João</strong> para Todos: Bom dia</div>
         </div>
+
+        <div class="box-message reserved">
+            <div class="time">(09:22:48)</div>
+            <div class="message"><strong>João</strong> reservadamente para Maria: Oi gatinha quer tc?</div>
+        </div>
+        
     </main>
 
     <footer>
-        <input type="text" placeholder="Escreva aqui...">
+        <textarea placeholder="Escreva aqui..."></textarea>
         <ion-icon onclick="sendMessage()" name="paper-plane-outline"></ion-icon>
     </footer>
 
