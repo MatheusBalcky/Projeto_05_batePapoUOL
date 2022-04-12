@@ -9,11 +9,29 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
+    <header>
+        <img style="width: 75px;" src="components/png-files/logo-uol-batepapo.png" alt="logo-batepapo-uol">
+        <ion-icon onclick="showPeople()" name="people-outline"></ion-icon>
+    </header>
+
+    <main>
+        <div class="box-message-status">
+            <div class="time">(09:21:45)</div>
+            <div class="message">João  entra na sala...</div>
+        </div>
+
+        <div class="box-message-status">
+            <div class="time">(09:21:45)</div>
+            <div class="message">João  entra na sala...</div>
+        </div>
+    </main>
+
+    <footer>
+        <input type="text" placeholder="Escreva aqui...">
+        <ion-icon onclick="sendMessage()" name="paper-plane-outline"></ion-icon>
+    </footer>
 
     <script src="./scripts/script.js"></script>
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
 </body>
 </html>
