@@ -11,12 +11,40 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+.login{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+.login > div input{
+    padding: 15px 30px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #9e9e9ea4;
+}
+.login > div button{
+    padding: 5px 15px;
+    border: 1px solid #9e9e9ea4;
+    border-radius: 5px;
+}
 .menu{
     position: fixed;
     height: 100%;
     width: 100%;
     background-color: #9e9e9ea4;
-    z-index: 2;
+    z-index: 1;
     display: flex;
     justify-content: flex-end;
 }
@@ -32,8 +60,8 @@ nav{
 }
 .closeMenu{
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 10px;
+    left: 10px;
     cursor: pointer;
 }
 .closeMenu img{
@@ -41,6 +69,7 @@ nav{
 }
 nav h2{
     text-align: center;
+    margin-top: 20px;
 }
 nav ul{
     display: flex;

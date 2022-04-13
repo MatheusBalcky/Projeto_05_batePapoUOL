@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
+    <div class="login">
+        <div>
+            <img src="./components/png-files/logo-login-uol.png" alt="Bate-Papo-Uol">
+            <input class="inputName" type="text" name="name" placeholder="Digite seu nome">
+            <button type="submit" onclick="enterRoom()">Entrar</button>
+        </div>
+    </div>
     <div class="menu hidden">
         <nav>
             <div class="closeMenu" onclick="showPeople()">
@@ -55,8 +62,9 @@
         <textarea placeholder="Escreva aqui..."></textarea>
         <ion-icon onclick="sendMessage()" name="paper-plane-outline"></ion-icon>
     </footer>
-
-    <script src="./scripts/script.js"></script>
+    
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="./scripts/script.js"></script>
 </body>
 </html>
