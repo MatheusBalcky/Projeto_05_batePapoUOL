@@ -1,14 +1,16 @@
-function sendMessage(text){
-    console.log("Enviando mensagem");
-}
+let userName;
+let messageTo = 'Todos';
+let typeMessage;
+
 function showPeople(){
     console.log("Mostrando pessoas e configs");
     document.querySelector(".menu").classList.toggle("hidden");
 }
 function messageEveryone(){
+    typeMessage = 'Todos'
     console.log("Função mensagem para todos");
 }
-function messageTo(){
+function messageToSomeone(){
     console.log("Função mensagem para...");
 }
 function publicMessage(){
@@ -23,7 +25,8 @@ function enterRoom(){
         let statusPromise = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', userName);
         statusPromise.then(function (){
             console.log('Status ok, enviado...')
-        })
+        });
+        renderMessages();
     }
     function success (success) {
         if (success.status === 200){
@@ -38,16 +41,17 @@ function enterRoom(){
         alert('Nome inválido tente novamente. O nome já existe ou o campo está vazio!');
         console.log("Reposta de error: ", err.response.status);
     }
-    let userName = {name: document.querySelector(".inputName").value};
+    userName = {name: document.querySelector(".inputName").value};
     const promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', userName);
     promise.then(success);
     promise.catch(error);
 }
 function renderMessages (){
     let messagesPromise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    let boxMessagesHtml = document.querySelector("main");
+    boxMessagesHtml.innerHTML = ``;
     messagesPromise.then(function (response){
         for (let i = 0; i < response.data.length; i++){
-            let boxMessagesHtml = document.querySelector("main");
             if (response.data[i].type === 'status'){
                 boxMessagesHtml.innerHTML +=`
                 <div class="box-message status">
@@ -70,4 +74,20 @@ function renderMessages (){
         }
         console.log(response.data);
     })
+}
+
+function sendMessage(){
+    let messageUser = document.querySelector("textarea").value;
+    let message = {
+            from: "tESdvsdvsdvTE",
+            to: "Todos",
+            text: "ALOUUUUUUUUUUU DRIVEN",
+            type: "message"
+            }
+    let promiseSendMessage = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+    promiseSendMessage.then(function (response){
+        renderMessages();
+        console.log('mensagem enviou')
+    })
+    promiseSendMessage.catch(function(erro){console.log("esse é o erro: ", erro)})
 }
