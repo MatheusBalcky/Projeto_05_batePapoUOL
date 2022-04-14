@@ -113,11 +113,12 @@ main{
     gap: 5px 0px;
 }
 .box-message{
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 0px 8px;
     padding: 12px 10px;
-    font-size: 14px;
+    font-size: 12px;
 }
 .time{
     color: #9e9e9e;

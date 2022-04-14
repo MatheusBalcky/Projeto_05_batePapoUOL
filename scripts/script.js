@@ -1,6 +1,7 @@
 let userName;
 let messageTo = 'Todos';
 let typeMessage;
+const boxMessagesHtml = document.querySelector("main");
 
 function showPeople(){
     console.log("Mostrando pessoas e configs");
@@ -22,11 +23,11 @@ function reservedMessage(){
 
 function enterRoom(){
     function statusOnline(){
-        let statusPromise = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', userName);
+        const statusPromise = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', userName);
         statusPromise.then(function (){
+            renderMessages()
             console.log('Status ok, enviado...')
         });
-        renderMessages();
     }
     function success (success) {
         if (success.status === 200){
@@ -34,8 +35,8 @@ function enterRoom(){
             document.querySelector(".login").classList.add("hidden");
             setInterval(statusOnline, 4500);
             renderMessages();
+            console.log('sucesso: ', success.status);
         }
-        console.log("Resposta de sucesso: ", success.status);
     }
     function error(err){
         alert('Nome inválido tente novamente. O nome já existe ou o campo está vazio!');
@@ -46,48 +47,83 @@ function enterRoom(){
     promise.then(success);
     promise.catch(error);
 }
-function renderMessages (){
-    let messagesPromise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-    let boxMessagesHtml = document.querySelector("main");
-    boxMessagesHtml.innerHTML = ``;
-    messagesPromise.then(function (response){
+function deliverMessages (response){
         for (let i = 0; i < response.data.length; i++){
             if (response.data[i].type === 'status'){
-                boxMessagesHtml.innerHTML +=`
-                <div class="box-message status">
-                    <div class="time">${response.data[i].time}</div>
-                    <div><strong>${response.data[i].from}</strong> ${response.data[i].text}</div>
-                </div>`
+                if (i === response.data.length - 1){
+                    boxMessagesHtml.innerHTML +=`
+                    <div class="box-message last status">
+                        <div class="time">${response.data[i].time}</div>
+                        <p><strong>${response.data[i].from}</strong> ${response.data[i].text}</p>
+                    </div>`
+                } else {
+                    boxMessagesHtml.innerHTML +=`
+                    <div class="box-message status">
+                        <div class="time">${response.data[i].time}</div>
+                        <p><strong>${response.data[i].from}</strong> ${response.data[i].text}</p>
+                    </div>`
+                }
             } else if (response.data[i].type === 'message'){
-                boxMessagesHtml.innerHTML +=`
-                <div class="box-message ${response.data[i].type}">
-                    <div class="time">${response.data[i].time}</div>
-                    <div><strong>${response.data[i].from}</strong> para <strong>${response.data[i].to}</strong>: ${response.data[i].text}</div>
-                </div>`
+                if (i === response.data.length - 1){
+                    boxMessagesHtml.innerHTML +=`
+                    <div class="box-message last message">
+                        <div class="time">${response.data[i].time}</div>
+                        <p><strong>${response.data[i].from}</strong> para <strong>${response.data[i].to}</strong>: ${response.data[i].text}</p>
+                    </div>`
+                } else {
+                    boxMessagesHtml.innerHTML +=`
+                    <div class="box-message message">
+                        <div class="time">${response.data[i].time}</div>
+                        <p><strong>${response.data[i].from}</strong> para <strong>${response.data[i].to}</strong>: ${response.data[i].text}</p>
+                    </div>`
+                }
             } else if (response.data[i].type === 'private_messsage'){
-                boxMessagesHtml.innerHTML +=`
-                <div class="box-message private_message">
-                    <div class="time">${response.data[i].time}</div>
-                    <div><strong>${response.data[i].from}</strong> para <strong>${response.data[i].to}</strong>: ${response.data[i].text}</div>
-                </div>`
+                if (i === response.data.length - 1){
+                    boxMessagesHtml.innerHTML +=`
+                    <div class="box-message last private_message">
+                        <div class="time">${response.data[i].time}</div>
+                        <p><strong>${response.data[i].from}</strong> para <strong>${response.data[i].to}</strong>: ${response.data[i].text}</p>
+                    </div>`
+                } else {
+                    boxMessagesHtml.innerHTML +=`
+                    <div class="box-message private_message">
+                        <div class="time">${response.data[i].time}</div>
+                        <p><strong>${response.data[i].from}</strong> para <strong>${response.data[i].to}</strong>: ${response.data[i].text}</p>
+                    </div>`
+                }
             }
         }
-        console.log(response.data);
-    })
+    const lastMessageScroll = document.querySelector(".last");
+    lastMessageScroll.scrollIntoView();
 }
-
+function renderMessages (){
+    const messagesPromise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    boxMessagesHtml.innerHTML = ``;
+    messagesPromise.then(deliverMessages);
+}
 function sendMessage(){
     let messageUser = document.querySelector("textarea").value;
     let message = {
-            from: "tESdvsdvsdvTE",
-            to: "Todos",
-            text: "ALOUUUUUUUUUUU DRIVEN",
-            type: "message"
-            }
+        from: userName.name,
+        to: "Todos",
+        text: messageUser,
+        type: "message",
+        };
+    document.querySelector("textarea").value = '';
+    renderMessages();
     let promiseSendMessage = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-    promiseSendMessage.then(function (response){
-        renderMessages();
-        console.log('mensagem enviou')
-    })
-    promiseSendMessage.catch(function(erro){console.log("esse é o erro: ", erro)})
+    promiseSendMessage.then( function (response){ console.log('mensagem enviou ', response); } )
+    promiseSendMessage.catch( function(erro){ console.log("esse é o erro: ", erro); } )
 }
+function deliverPersons(response){
+    
+    for(let i = 0; i < response.data.length; i++){
+
+    }
+}
+function renderPersons(){
+    let personsOn = axios.get('https://mock-api.driven.com.br/api/v6/uol/participants');
+    personsOn.then(deliverPersons);
+    personsOn.catch(function(response){console.log('error persons: ', response.status)});
+}
+renderPersons();
