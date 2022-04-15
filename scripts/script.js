@@ -2,17 +2,19 @@ let userName;
 let messageTo = 'Todos';
 let typeMessage;
 const boxMessagesHtml = document.querySelector("main");
+document.querySelector("textarea").addEventListener("keypress", function (e) {if (e.key === 'Enter'){sendMessage();}});
+
 
 function showPeople(){
-    console.log("Mostrando pessoas e configs");
     document.querySelector(".menu").classList.toggle("hidden");
 }
 function messageEveryone(){
-    typeMessage = 'Todos'
+    messageTo = 'Todos'
     console.log("Função mensagem para todos");
 }
-function messageToSomeone(){
-    console.log("Função mensagem para...");
+function messageToSomeone(element){
+    messageTo = element.querySelector(".name").innerHTML;
+    console.log(element.querySelector(".name").innerHTML);
 }
 function publicMessage(){
     console.log("função mensagem pública");
@@ -35,6 +37,7 @@ function enterRoom(){
             document.querySelector(".login").classList.add("hidden");
             setInterval(statusOnline, 4500);
             renderMessages();
+            renderPersons();
             console.log('sucesso: ', success.status);
         }
     }
@@ -105,7 +108,7 @@ function sendMessage(){
     let messageUser = document.querySelector("textarea").value;
     let message = {
         from: userName.name,
-        to: "Todos",
+        to: messageTo,
         text: messageUser,
         type: "message",
         };
@@ -116,9 +119,11 @@ function sendMessage(){
     promiseSendMessage.catch( function(erro){ console.log("esse é o erro: ", erro); } )
 }
 function deliverPersons(response){
-    
+    const personsListHtml = document.querySelector(".personsOnList");
     for(let i = 0; i < response.data.length; i++){
-
+        personsListHtml.innerHTML+= `
+        <li onclick="messageToSomeone(this)" ><ion-icon name="person-circle-outline"></ion-icon><span class="name">${response.data[i].name}</span></li>
+        `
     }
 }
 function renderPersons(){
@@ -126,4 +131,3 @@ function renderPersons(){
     personsOn.then(deliverPersons);
     personsOn.catch(function(response){console.log('error persons: ', response.status)});
 }
-renderPersons();
